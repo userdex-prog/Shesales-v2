@@ -1,0 +1,472 @@
+/* =========================================
+   CART PAGE
+========================================= */
+
+.cart-page {
+    padding: 5rem 1.25rem 7rem;
+    background: #fffdf9;
+    min-height: 70vh;
+}
+
+.cart-page > .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* -----------------------------------------
+   Cart Heading
+----------------------------------------- */
+
+.cart-heading {
+    margin-bottom: 3rem;
+}
+
+.cart-heading h1 {
+    margin: 0;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(2.75rem, 5vw, 4rem);
+
+    font-weight: 500;
+
+    color: #5a4032;
+}
+
+.section-eyebrow {
+    margin: 0 0 0.5rem;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.7rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.15em;
+
+    text-transform: uppercase;
+
+    color: #8b6b58;
+}
+
+
+/* -----------------------------------------
+   Cart Layout
+----------------------------------------- */
+
+.cart-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        360px;
+
+    gap: 4rem;
+
+    align-items: start;
+}
+
+
+/* -----------------------------------------
+   Cart Item
+----------------------------------------- */
+
+.cart-items {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+.cart-item {
+    display: grid;
+
+    grid-template-columns:
+        140px
+        minmax(0, 1fr)
+        auto;
+
+    gap: 1.5rem;
+
+    align-items: center;
+
+    padding-bottom: 1.5rem;
+
+    border-bottom:
+        1px solid
+        rgba(90, 64, 50, 0.12);
+}
+
+
+/* -----------------------------------------
+   Cart Image
+----------------------------------------- */
+
+.cart-item-image {
+    width: 140px;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    background: #f4eee7;
+}
+
+.cart-item-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* -----------------------------------------
+   Cart Details
+----------------------------------------- */
+
+.cart-item-category {
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.65rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    color: #8b6b58;
+}
+
+.cart-item-details h2 {
+    margin: 0.35rem 0;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 1.6rem;
+
+    font-weight: 500;
+
+    color: #5a4032;
+}
+
+.cart-item-price {
+    margin: 0;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.85rem;
+
+    color: #75665d;
+}
+
+
+/* -----------------------------------------
+   Cart Actions
+----------------------------------------- */
+
+.cart-item-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-top: 1rem;
+}
+
+.cart-quantity {
+    display: flex;
+
+    align-items: center;
+
+    border:
+        1px solid
+        rgba(90, 64, 50, 0.2);
+}
+
+.cart-quantity button {
+    width: 34px;
+    height: 34px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #5a4032;
+
+    cursor: pointer;
+}
+
+.cart-quantity span {
+    min-width: 30px;
+
+    text-align: center;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.8rem;
+
+    color: #5a4032;
+}
+
+.remove-item {
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.7rem;
+
+    color: #8b6b58;
+
+    text-decoration: underline;
+
+    cursor: pointer;
+}
+
+
+/* -----------------------------------------
+   Item Total
+----------------------------------------- */
+
+.cart-item-total {
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.9rem;
+
+    font-weight: 500;
+
+    color: #5a4032;
+}
+
+
+/* -----------------------------------------
+   Cart Summary
+----------------------------------------- */
+
+.cart-summary {
+    padding: 2rem;
+
+    background: #f8f4ee;
+}
+
+.cart-summary h2 {
+    margin: 0 0 2rem;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 2rem;
+
+    font-weight: 500;
+
+    color: #5a4032;
+}
+
+.summary-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom: 1rem;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.8rem;
+
+    color: #75665d;
+}
+
+.summary-row strong {
+    font-weight: 500;
+
+    color: #5a4032;
+}
+
+.summary-divider {
+    height: 1px;
+
+    margin: 1.5rem 0;
+
+    background:
+        rgba(90, 64, 50, 0.15);
+}
+
+.summary-total {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 1.5rem;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    color: #5a4032;
+}
+
+.summary-total strong {
+    font-size: 1.1rem;
+}
+
+.checkout-btn {
+    width: 100%;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+.continue-shopping {
+    display: block;
+
+    margin-top: 1rem;
+
+    text-align: center;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.75rem;
+
+    color: #75665d;
+
+    text-decoration: underline;
+}
+
+
+/* -----------------------------------------
+   Empty Cart
+----------------------------------------- */
+
+.empty-cart {
+    padding: 7rem 1rem;
+
+    text-align: center;
+}
+
+.empty-cart h1 {
+    margin: 0 0 1rem;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 3.5rem;
+
+    font-weight: 500;
+
+    color: #5a4032;
+}
+
+.empty-cart p {
+    margin: 0 auto 2rem;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.9rem;
+
+    color: #75665d;
+}
+
+
+/* -----------------------------------------
+   Tablet
+----------------------------------------- */
+
+@media (max-width: 900px) {
+
+    .cart-layout {
+        grid-template-columns: 1fr;
+
+        gap: 3rem;
+    }
+
+    .cart-summary {
+        max-width: 600px;
+    }
+
+}
+
+
+/* -----------------------------------------
+   Mobile
+----------------------------------------- */
+
+@media (max-width: 640px) {
+
+    .cart-page {
+        padding:
+            3.5rem 1rem 5rem;
+    }
+
+    .cart-item {
+        grid-template-columns:
+            90px
+            minmax(0, 1fr);
+
+        gap: 1rem;
+    }
+
+    .cart-item-image {
+        width: 90px;
+    }
+
+    .cart-item-total {
+        grid-column: 2;
+
+        margin-top: -0.5rem;
+    }
+
+    .cart-item-details h2 {
+        font-size: 1.35rem;
+    }
+
+    .cart-item-actions {
+        flex-wrap: wrap;
+    }
+
+    .empty-cart {
+        padding:
+            5rem 1rem;
+    }
+
+    .empty-cart h1 {
+        font-size: 2.75rem;
+    }
+
+}

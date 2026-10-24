@@ -1,0 +1,294 @@
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    width: 100%;
+    padding: 5rem 1.5rem 2rem;
+
+    background: #5a4032;
+    color: #ffffff;
+}
+
+.footer > .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   FOOTER GRID
+========================================================= */
+
+.footer-grid {
+    display: grid;
+
+    grid-template-columns:
+        2fr
+        1fr
+        1fr
+        1fr;
+
+    gap: 4rem;
+
+    padding-bottom: 4rem;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.footer-brand {
+    max-width: 350px;
+}
+
+.footer-logo {
+    display: inline-block;
+
+    margin-bottom: 1.25rem;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 2.5rem;
+    font-weight: 600;
+
+    line-height: 1;
+
+    color: #ffffff;
+}
+
+.footer-logo span {
+    color: #e5c9a8;
+}
+
+.footer-brand p {
+    margin: 0;
+
+    max-width: 300px;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.85rem;
+
+    line-height: 1.8;
+
+    color:
+        rgba(255, 255, 255, 0.7);
+}
+
+
+/* =========================================================
+   FOOTER COLUMNS
+========================================================= */
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-column h3 {
+    margin: 0 0 1.5rem;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.8rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    color: #ffffff;
+}
+
+.footer-column ul {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.9rem;
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+}
+
+.footer-column li {
+    margin: 0;
+    padding: 0;
+}
+
+.footer-column a {
+    display: inline-block;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.8rem;
+
+    color:
+        rgba(255, 255, 255, 0.65);
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.footer-column a:hover {
+    color: #ffffff;
+
+    transform:
+        translateX(4px);
+}
+
+
+/* =========================================================
+   FOOTER BOTTOM
+========================================================= */
+
+.footer-bottom {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    padding-top: 2rem;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.15);
+}
+
+.footer-bottom p {
+    margin: 0;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.7rem;
+
+    line-height: 1.6;
+
+    color:
+        rgba(255, 255, 255, 0.5);
+}
+
+.footer-socials {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1.5rem;
+}
+
+.footer-socials a {
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.7rem;
+
+    color:
+        rgba(255, 255, 255, 0.65);
+
+    transition:
+        color 0.25s ease;
+}
+
+.footer-socials a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .footer-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 3rem;
+    }
+
+    .footer-brand {
+        grid-column:
+            1 / -1;
+
+        max-width: 500px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .footer {
+        padding:
+            4rem 1.25rem 2rem;
+    }
+
+    .footer-grid {
+        grid-template-columns:
+            1fr;
+
+        gap: 2.5rem;
+    }
+
+    .footer-brand {
+        grid-column: auto;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 1.5rem;
+    }
+
+    .footer-socials {
+        gap: 1.25rem;
+    }
+
+}
+/* =========================================================
+   ADMIN LINK
+========================================================= */
+
+.footer-admin-link {
+    margin-top: 10px;
+}
+
+.footer-admin-link a {
+    font-size: 0.72rem;
+    opacity: 0.35;
+    letter-spacing: 0.08em;
+    transition: opacity 0.25s ease;
+}
+
+.footer-admin-link a:hover {
+    opacity: 0.75;
+}

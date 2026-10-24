@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="description"
+    content="Manage SheSales products and store administration."
+>
+
+<title>Admin Dashboard | SheSales</title>
+
+<!-- STYLESHEETS -->
+
+<link
+    rel="stylesheet"
+    href="/src/css/global.css"
+>
+
+<link
+    rel="stylesheet"
+    href="/src/css/layout.css"
+>
+
+<link
+    rel="stylesheet"
+    href="/src/css/admin.css"
+>
+
+<link
+    rel="stylesheet"
+    href="/src/css/responsive.css"
+>
+
+
+</head>
+
+<body>
+
+<main class="admin-page">
+
+<div class="admin-layout">
+
+    <!-- =============================================
+         SIDEBAR
+    ============================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-sidebar-brand">
+            <a href="/">
+                <span>She</span>Sales
+            </a>
+        </div>
+
+        <p class="admin-sidebar-label">
+            Management
+        </p>
+
+        <nav
+            class="admin-nav"
+            aria-label="Admin navigation"
+        >
+
+            <a
+                href="#dashboard"
+                class="active"
+                data-section="dashboard"
+            >
+                Dashboard
+            </a>
+
+            <a
+                href="#products"
+                data-section="products"
+            >
+                Products
+            </a>
+
+            <a
+                href="#orders"
+                data-section="orders"
+            >
+                Orders
+            </a>
+
+            <a
+                href="#custom-orders"
+                data-section="custom-orders"
+            >
+                Custom Orders
+            </a>
+
+           
+
+        </nav>
+
+        <a
+            href="/"
+            class="admin-store-link"
+        >
+            ← Back to Store
+        </a>
+
+    </aside>
+
+
+    <!-- =============================================
+         MAIN CONTENT
+    ============================================== -->
+
+    <section class="admin-main">
+
+
+        <!-- =========================================
+             DASHBOARD
+        ========================================== -->
+
+        <div
+            class="admin-section"
+            id="dashboard"
+        >
+
+            <header class="admin-header">
+
+                <div>
+                    <h1>Dashboard</h1>
+
+                    <p>
+                        Welcome back to your SheSales store.
+                    </p>
+                </div>
+
+            </header>
+
+
+            <!-- STATISTICS -->
+
+            <div class="admin-stats">
+
+                <div class="admin-stat-card">
+
+                    <span class="admin-stat-label">
+                        Products
+                    </span>
+
+                    <strong
+                        class="admin-stat-value"
+                        id="stat-products"
+                        aria-live="polite"
+                    >
+                        Loading...
+                    </strong>
+
+                    <span class="admin-stat-change">
+                        Products in your catalog
+                    </span>
+
+                </div>
+
+
+                <div class="admin-stat-card">
+
+                    <span class="admin-stat-label">
+                        Orders
+                    </span>
+
+                    <strong
+                        class="admin-stat-value"
+                        id="stat-orders"
+                    >
+                        0
+                    </strong>
+
+                    <span class="admin-stat-change">
+                        Customer orders
+                    </span>
+
+                </div>
+
+
+                <div class="admin-stat-card">
+
+                    <span class="admin-stat-label">
+                        Custom Orders
+                    </span>
+
+                    <strong
+                        class="admin-stat-value"
+                        id="stat-custom-orders"
+                    >
+                        0
+                    </strong>
+
+                    <span class="admin-stat-change">
+                        Custom order requests
+                    </span>
+
+                </div>
+
+
+                <div class="admin-stat-card">
+
+                    <span class="admin-stat-label">
+                        Revenue
+                    </span>
+
+                    <strong
+                        class="admin-stat-value"
+                        id="stat-revenue"
+                    >
+                        $0.00
+                    </strong>
+
+                    <span class="admin-stat-change">
+                        Recorded revenue
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- DASHBOARD PANELS -->
+
+            <div class="admin-dashboard-grid">
+
+
+                <!-- RECENT ORDERS -->
+
+                <div class="admin-panel">
+
+                    <div class="admin-panel-header">
+
+                        <h2>Recent Orders</h2>
+
+                        <a href="#orders">
+                            View All
+                        </a>
+
+                    </div>
+
+                    <div class="admin-orders">
+
+                        <div class="admin-empty">
+
+                            <h3>No orders yet</h3>
+
+                            <p>
+                                Customer orders will appear here
+                                once your store starts receiving them.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="admin-panel">
+
+                    <div class="admin-panel-header">
+
+                        <h2>Quick Actions</h2>
+
+                    </div>
+
+                    <div class="admin-actions">
+
+                        <a
+                            href="#products"
+                            class="admin-action"
+                        >
+
+                            <div>
+                                <strong>Products</strong>
+
+                                <span>
+                                    Manage your products
+                                </span>
+                            </div>
+
+                            <span class="admin-action-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="#orders"
+                            class="admin-action"
+                        >
+
+                            <div>
+                                <strong>Orders</strong>
+
+                                <span>
+                                    View customer orders
+                                </span>
+                            </div>
+
+                            <span class="admin-action-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="#custom-orders"
+                            class="admin-action"
+                        >
+
+                            <div>
+                                <strong>Custom Orders</strong>
+
+                                <span>
+                                    Review custom requests
+                                </span>
+                            </div>
+
+                            <span class="admin-action-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             PRODUCTS
+        ========================================== -->
+
+        <div
+            class="admin-section hidden"
+            id="products"
+        >
+
+            <header class="admin-header">
+
+                <div>
+                    <h1>Products</h1>
+
+                    <p>
+                        Manage your SheSales product catalog.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="admin-btn admin-btn-primary"
+                    id="toggle-product-form"
+                >
+                    + Add Product
+                </button>
+
+            </header>
+
+
+            <!-- ADD PRODUCT FORM -->
+
+            <div
+                class="admin-panel admin-product-form-panel hidden"
+                id="product-form-panel"
+            >
+
+                <div class="admin-panel-header">
+
+                    <h2>Add a Product</h2>
+
+                </div>
+
+
+                <form id="product-form">
+
+                    <div class="admin-form-grid">
+
+
+                        <!-- PRODUCT NAME -->
+
+                        <div class="admin-form-field">
+
+                            <label for="product-name">
+                                Product Name *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="product-name"
+                                name="name"
+                                required
+                                maxlength="120"
+                                placeholder="Peony Bouquet Bag"
+                            >
+
+                        </div>
+
+
+                        <!-- PRICE -->
+
+                        <div class="admin-form-field">
+
+                            <label for="product-price">
+                                Price (USD) *
+                            </label>
+
+                            <input
+                                type="number"
+                                id="product-price"
+                                name="price"
+                                required
+                                min="0.01"
+                                step="0.01"
+                                placeholder="59.99"
+                            >
+
+                        </div>
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="admin-form-field">
+
+                            <label for="product-category">
+                                Category *
+                            </label>
+
+                            <select
+                                id="product-category"
+                                name="category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option value="bags">
+                                    Bags
+                                </option>
+
+                                <option value="accessories">
+                                    Accessories
+                                </option>
+
+                                <option value="flowers">
+                                    Flowers
+                                </option>
+
+                                <option value="home-decor">
+                                    Home Decor
+                                </option>
+
+                                <option value="other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- STOCK -->
+
+                        <div class="admin-form-field">
+
+                            <label for="product-stock">
+                                Stock Quantity *
+                            </label>
+
+                            <input
+                                type="number"
+                                id="product-stock"
+                                name="stock"
+                                required
+                                min="0"
+                                step="1"
+                                value="1"
+                            >
+
+                        </div>
+
+
+                        <!-- BADGE -->
+
+                        <div class="admin-form-field">
+
+                            <label for="product-badge">
+                                Product Badge
+                            </label>
+
+                            <select
+                                id="product-badge"
+                                name="badge"
+                            >
+
+                                <option value="Handmade">
+                                    Handmade
+                                </option>
+
+                                <option value="New">
+                                    New
+                                </option>
+
+                                <option value="Best Seller">
+                                    Best Seller
+                                </option>
+
+                                <option value="">
+                                    No badge
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- PRODUCT IMAGE URL -->
+
+<div class="admin-form-field admin-form-field-full">
+
+<label for="product-image">
+    Product Image URL *
+</label>
+
+<input
+    type="url"
+    id="product-image"
+    name="imageUrl"
+    required
+    placeholder="https://example.com/your-product-image.jpg"
+>
+
+<small>
+    Paste a direct link to your product image.
+</small>
+
+<div class="admin-image-preview-wrapper">
+
+    <p>Image Preview</p>
+
+    <img
+        id="product-image-preview"
+        class="admin-image-preview"
+        src=""
+        alt="Product image preview"
+        hidden
+    >
+
+    <p
+        id="product-image-preview-message"
+        class="admin-image-preview-message"
+    >
+        Your image preview will appear here.
+    </p>
+
+</div>
+
+
+</div>
+
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="admin-form-field admin-form-field-full">
+
+                            <label for="product-description">
+                                Description *
+                            </label>
+
+                            <textarea
+                                id="product-description"
+                                name="description"
+                                required
+                                maxlength="2000"
+                                rows="4"
+                                placeholder="Describe your handmade crochet creation..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <!-- TAGS -->
+
+                        <div class="admin-form-field admin-form-field-full">
+
+                            <label for="product-tags">
+                                Tags
+                            </label>
+
+                            <input
+                                type="text"
+                                id="product-tags"
+                                name="tags"
+                                placeholder="new, best"
+                            >
+
+                            <small>
+                                Separate tags with commas.
+                            </small>
+
+                        </div>
+
+
+                        <!-- FEATURED PRODUCT -->
+
+                        <div class="admin-form-field admin-form-field-full">
+
+                            <label class="admin-checkbox-label">
+
+                                <input
+                                    type="checkbox"
+                                    id="product-featured"
+                                    name="featured"
+                                >
+
+                                Feature this product on the store
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FORM MESSAGE -->
+
+                    <p
+                        class="admin-form-message"
+                        id="product-form-message"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+
+
+                    <!-- FORM ACTIONS -->
+
+                    <div class="admin-form-actions">
+
+                        <button
+                            type="button"
+                            class="admin-btn admin-btn-secondary"
+                            id="cancel-product-form"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="admin-btn admin-btn-primary"
+                            id="save-product-button"
+                        >
+                            Save Product
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- PRODUCT LIST -->
+
+            <div class="admin-panel admin-product-list-panel">
+
+                <div class="admin-panel-header">
+
+                    <h2>Your Products</h2>
+
+                </div>
+
+                <div
+                    id="admin-product-list"
+                    aria-live="polite"
+                >
+
+                    <div class="admin-empty">
+
+                        <h3>Loading products...</h3>
+
+                        <p>
+                            Please wait while your catalog loads.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             ORDERS
+        ========================================== -->
+
+        <div
+            class="admin-section hidden"
+            id="orders"
+        >
+
+            <header class="admin-header">
+
+                <div>
+                    <h1>Orders</h1>
+
+                    <p>
+                        View and manage customer orders.
+                    </p>
+                </div>
+
+            </header>
+
+
+            <div class="admin-panel">
+
+                <div class="admin-empty">
+
+                    <h3>No orders yet</h3>
+
+                    <p>
+                        Customer orders will appear here once
+                        your store starts receiving them.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+       <!-- CUSTOM ORDERS -->
+
+<div
+    class="admin-section hidden"
+    id="custom-orders"
+>
+
+
+<header class="admin-header">
+
+    <div>
+        <h1>Custom Orders</h1>
+
+        <p>
+            Record and manage personalized crochet orders.
+        </p>
+    </div>
+
+    <button
+        type="button"
+        class="admin-btn admin-btn-primary"
+        id="toggle-custom-order-form"
+    >
+        + Add Custom Order
+    </button>
+
+</header>
+
+
+<!-- ADD CUSTOM ORDER FORM -->
+
+<div
+    class="admin-panel hidden"
+    id="custom-order-form-panel"
+>
+
+    <div class="admin-panel-header">
+        <h2>Add Custom Order</h2>
+    </div>
+
+    <form id="custom-order-form">
+
+        <div class="admin-form-grid">
+
+            <div class="admin-form-group">
+                <label for="custom-customer-name">
+                    Customer Name
+                </label>
+
+                <input
+                    type="text"
+                    id="custom-customer-name"
+                    name="customerName"
+                    required
+                >
+            </div>
+
+
+            <div class="admin-form-group">
+                <label for="custom-customer-email">
+                    Customer Email
+                </label>
+
+                <input
+                    type="email"
+                    id="custom-customer-email"
+                    name="customerEmail"
+                    required
+                >
+            </div>
+
+
+            <div class="admin-form-group">
+                <label for="custom-product-name">
+                    Custom Product
+                </label>
+
+                <input
+                    type="text"
+                    id="custom-product-name"
+                    name="productName"
+                    placeholder="e.g. Custom Rose Bouquet Bag"
+                    required
+                >
+            </div>
+
+
+            <div class="admin-form-group">
+                <label for="custom-order-price">
+                    Agreed Price (₹)
+                </label>
+
+                <input
+                    type="number"
+                    id="custom-order-price"
+                    name="price"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+            </div>
+
+
+            <div class="admin-form-group">
+                <label for="custom-order-status">
+                    Order Status
+                </label>
+
+                <select
+                    id="custom-order-status"
+                    name="status"
+                    required
+                >
+                    <option value="new">New</option>
+                    <option value="contacted">Contacted</option>
+                    <option value="accepted">Accepted</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="declined">Declined</option>
+                </select>
+            </div>
+
+
+            <div class="admin-form-group">
+                <label for="custom-order-notes">
+                    Notes
+                </label>
+
+                <textarea
+                    id="custom-order-notes"
+                    name="notes"
+                    rows="4"
+                    placeholder="Colors, design, size, delivery details..."
+                ></textarea>
+            </div>
+
+        </div>
+
+
+        <p
+            id="custom-order-form-message"
+            class="admin-form-message"
+            role="status"
+        ></p>
+
+
+        <div class="admin-form-actions">
+
+            <button
+                type="submit"
+                class="admin-btn admin-btn-primary"
+                id="save-custom-order-button"
+            >
+                Save Custom Order
+            </button>
+
+            <button
+                type="button"
+                class="admin-btn admin-btn-secondary"
+                id="cancel-custom-order-form"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- CUSTOM ORDERS LIST -->
+
+<div class="admin-panel">
+
+    <div class="admin-panel-header">
+        <h2>Your Custom Orders</h2>
+    </div>
+
+    <div
+        id="admin-custom-order-list"
+        aria-live="polite"
+    >
+
+        <div class="admin-empty">
+            <h3>Loading custom orders...</h3>
+
+            <p>
+                Your saved custom orders will appear here.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+      
+
+
+</main>
+
+<!-- ADMIN JAVASCRIPT -->
+
+<script
+    type="module"
+    src="/src/js/admin.js"
+></script>
+
+</body>
+
+</html>

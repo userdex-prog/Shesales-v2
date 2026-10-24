@@ -1,0 +1,368 @@
+/* =========================================================
+   SHESALES V2
+   GLOBAL DESIGN SYSTEM
+========================================================= */
+
+
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+html,
+body {
+    position: relative;
+}
+
+/* =========================================================
+   CSS RESET
+========================================================= */
+
+*,
+*::before,
+*::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    text-rendering:optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg{
+    display:block;
+    max-width:100%;
+}
+
+button,
+input,
+textarea,
+select{
+    font:inherit;
+}
+
+button{
+    background:none;
+    border:none;
+    cursor:pointer;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+ul,
+ol{
+    list-style:none;
+}
+
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+
+:root{
+
+    /* Colors */
+
+    --color-primary:#8A5A44;
+    --color-primary-dark:#6F4735;
+
+    --color-secondary:#C89B74;
+
+    --color-background:#FAF7F3;
+    --color-surface:#FFFFFF;
+
+    --color-text:#3A2D28;
+    --color-text-light:#6E625C;
+
+    --color-border:#E6DDD5;
+
+    --color-success:#3D8158;
+    --color-error:#B34B4B;
+
+    /* Fonts */
+
+    --font-heading:"Cormorant Garamond", serif;
+    --font-body:"Poppins", sans-serif;
+
+    /* Font Sizes */
+
+    --fs-xs:.75rem;
+    --fs-sm:.875rem;
+    --fs-base:1rem;
+    --fs-md:1.125rem;
+    --fs-lg:1.5rem;
+    --fs-xl:2rem;
+    --fs-2xl:2.75rem;
+    --fs-3xl:3.75rem;
+
+    /* Font Weight */
+
+    --fw-light:300;
+    --fw-normal:400;
+    --fw-medium:500;
+    --fw-semibold:600;
+    --fw-bold:700;
+
+    /* Radius */
+
+    --radius-sm:10px;
+    --radius-md:18px;
+    --radius-lg:28px;
+    --radius-round:999px;
+
+    /* Shadows */
+
+    --shadow-sm:0 5px 15px rgba(0,0,0,.05);
+    --shadow-md:0 15px 40px rgba(0,0,0,.08);
+    --shadow-lg:0 25px 60px rgba(0,0,0,.12);
+
+    /* Transition */
+
+    --transition:.35s ease;
+
+    /* Width */
+
+    --container-width:1320px;
+
+    /* Z Index */
+
+    --z-dropdown:100;
+    --z-sticky:500;
+    --z-overlay:900;
+    --z-modal:1000;
+}
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+    background: var(--color-background);
+
+    color: var(--color-text);
+
+    font-family: var(--font-body);
+
+    font-size: var(--fs-base);
+
+    line-height: 1.7;
+
+    overflow-x: hidden;
+}
+
+
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+
+    font-family:var(--font-heading);
+
+    font-weight:600;
+
+    line-height:1.1;
+
+    color:var(--color-text);
+}
+
+h1{
+    font-size:clamp(3rem,7vw,5rem);
+}
+
+h2{
+    font-size:clamp(2.4rem,5vw,4rem);
+}
+
+h3{
+    font-size:clamp(1.7rem,3vw,2.4rem);
+}
+
+h4{
+    font-size:1.5rem;
+}
+
+p{
+
+    color:var(--color-text-light);
+
+    line-height:1.8;
+}
+
+small{
+    font-size:var(--fs-sm);
+}
+
+strong{
+    font-weight:600;
+}
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection{
+
+    background:var(--color-primary);
+
+    color:#fff;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#efe8e2;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--color-primary);
+
+    border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--color-primary-dark);
+}
+
+/* =========================================================
+   SECTION SPACING
+========================================================= */
+
+section{
+
+    padding:6rem 0;
+}
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+.text-center{
+    text-align:center;
+}
+
+.text-left{
+    text-align:left;
+}
+
+.text-right{
+    text-align:right;
+}
+
+.w-100{
+    width:100%;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.flex{
+    display:flex;
+}
+
+.grid{
+    display:grid;
+}
+
+.items-center{
+    align-items:center;
+}
+
+.justify-center{
+    justify-content:center;
+}
+
+.justify-between{
+    justify-content:space-between;
+}
+
+.gap-sm{
+    gap:1rem;
+}
+
+.gap-md{
+    gap:2rem;
+}
+
+.gap-lg{
+    gap:3rem;
+}
+
+/* =========================================================
+   IMAGE HELPERS
+========================================================= */
+
+.img-cover{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+.img-contain{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+}
+
+/* =========================================================
+   FOCUS STATES
+========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible{
+
+    outline:2px solid var(--color-secondary);
+
+    outline-offset:4px;
+}
+
+/* =========================================================
+   TRANSITIONS
+========================================================= */
+
+a,
+button,
+input,
+textarea,
+svg,
+img{
+
+    transition:var(--transition);
+}
+

@@ -1,0 +1,232 @@
+/* =========================================
+   WISHLIST PAGE
+========================================= */
+
+.wishlist-page {
+    padding: 100px 0;
+}
+
+
+/* =========================================
+   WISHLIST HEADING
+========================================= */
+
+.wishlist-heading {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px;
+}
+
+.wishlist-heading h1 {
+    margin: 10px 0 15px;
+}
+
+.wishlist-subtitle {
+    margin: 0;
+    color: #777;
+}
+
+
+/* =========================================
+   WISHLIST GRID
+========================================= */
+
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px;
+    align-items: start;
+}
+
+
+/* =========================================
+   WISHLIST ITEM
+========================================= */
+
+.wishlist-item {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+/* =========================================
+   PRODUCT CARD OVERRIDES
+========================================= */
+
+/*
+   Keep wishlist product cards compact
+   and consistent with a marketplace grid.
+*/
+
+.wishlist-item .product-card {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Product image container */
+
+.wishlist-item .product-images {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+}
+
+
+/* Product images */
+
+.wishlist-item .product-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* =========================================
+   REMOVE FROM WISHLIST BUTTON
+========================================= */
+
+.wishlist-remove-btn {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 20px;
+
+    border: 1px solid #8b6f5a;
+    background: transparent;
+    color: #8b6f5a;
+
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.wishlist-remove-btn:hover {
+    background-color: #8b6f5a;
+    color: #ffffff;
+    border-color: #8b6f5a;
+}
+
+
+/* =========================================
+   EMPTY WISHLIST
+========================================= */
+
+.empty-wishlist {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 80px 30px;
+
+    text-align: center;
+}
+
+.empty-wishlist-icon {
+    margin-bottom: 20px;
+
+    font-size: 64px;
+    line-height: 1;
+
+    color: #8b6f5a;
+}
+
+.empty-wishlist h2 {
+    margin: 0 0 15px;
+}
+
+.empty-wishlist p {
+    margin: 0 0 30px;
+    color: #777;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .wishlist-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 25px;
+    }
+
+    .wishlist-item .product-images {
+        height: 260px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL TABLET
+========================================= */
+
+@media (max-width: 800px) {
+
+    .wishlist-page {
+        padding: 80px 0;
+    }
+
+    .wishlist-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px 20px;
+    }
+
+    .wishlist-item .product-images {
+        height: 240px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .wishlist-page {
+        padding: 60px 0;
+    }
+
+    .wishlist-heading {
+        margin-bottom: 40px;
+    }
+
+    .wishlist-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .wishlist-item .product-images {
+        height: 320px;
+    }
+
+    .empty-wishlist {
+        padding: 60px 20px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+
+    .wishlist-item .product-images {
+        height: 280px;
+    }
+
+}

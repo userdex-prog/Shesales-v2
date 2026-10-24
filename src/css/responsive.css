@@ -1,0 +1,158 @@
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px){
+
+    .hero-container{
+
+        grid-template-columns: 1fr;
+
+        text-align:center;
+
+        gap:3rem;
+    }
+
+    .hero-image{
+
+        order:-1;
+    }
+
+    .hero-content{
+
+        margin:auto;
+    }
+
+    .hero-buttons{
+
+        justify-content:center;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .hero{
+
+        padding:5rem 0;
+    }
+
+    .hero h1{
+
+        font-size:2.8rem;
+    }
+
+    .hero-image img{
+
+        max-width:380px;
+    }
+
+}
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+@media (max-width:992px){
+
+    .nav-links{
+
+        display:none;
+    }
+
+    .menu-toggle{
+
+        display:block;
+    }
+
+}
+
+/* =========================================================
+   FEATURED PRODUCTS
+========================================================= */
+
+@media (max-width:992px){
+
+    .products-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media (max-width:640px){
+
+    .products-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .why-grid{
+        gap:1.5rem;
+    }
+
+    .why-card{
+        padding:2rem 1.5rem;
+    }
+}
+/* =========================================================
+   MOBILE NAVIGATION MENU
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .navbar {
+        position: relative;
+    }
+
+    .navbar-container {
+        position: relative;
+    }
+
+    .nav-links.mobile-menu-open {
+        display: flex;
+        position: absolute;
+
+        top: 100%;
+        left: 0;
+        right: 0;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 15px 0;
+
+        background: #ffffff;
+
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+        box-shadow:
+            0 10px 25px
+            rgba(0, 0, 0, 0.08);
+
+        z-index: 1000;
+    }
+
+    .nav-links.mobile-menu-open li {
+        width: 100%;
+    }
+
+    .nav-links.mobile-menu-open a {
+        display: block;
+
+        width: 100%;
+
+        padding: 15px 25px;
+
+        text-align: center;
+    }
+
+    .nav-links.mobile-menu-open a:hover {
+        background: #f7f2ed;
+    }
+
+}

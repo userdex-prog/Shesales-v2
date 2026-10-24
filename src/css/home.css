@@ -1,0 +1,1112 @@
+/* =========================================================
+   HOME PAGE
+========================================================= */
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+
+    min-height: calc(100vh - 126px);
+
+    display: flex;
+    align-items: center;
+
+    background: linear-gradient(
+        180deg,
+        #faf7f3 0%,
+        #f6f0ea 100%
+    );
+}
+
+.hero-container {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    align-items: center;
+    gap: 5rem;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+}
+
+.hero-tag {
+    display: inline-block;
+
+    margin-bottom: 1rem;
+
+    padding: .55rem 1rem;
+
+    background: rgba(138,90,68,.08);
+
+    border-radius: 999px;
+
+    color: var(--color-primary);
+
+    font-size: .85rem;
+
+    font-weight: 600;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    margin-bottom: 1.5rem;
+
+    line-height: 1.1;
+}
+
+.hero h1 span {
+    color: var(--color-primary);
+}
+
+.hero p {
+    max-width: 520px;
+
+    margin-bottom: 2.2rem;
+
+    font-size: 1.08rem;
+
+    line-height: 1.8;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.hero-image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-image img {
+    width: 100%;
+    max-width: 520px;
+
+    border-radius: 28px;
+
+    box-shadow: var(--shadow-lg);
+
+    animation: floatImage 6s ease-in-out infinite;
+}
+
+/* Decorative blobs */
+
+.hero-decoration {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(10px);
+    opacity: .45;
+}
+
+.hero-decoration-1 {
+    width: 260px;
+    height: 260px;
+
+    background: rgba(138,90,68,.10);
+
+    top: -80px;
+    left: -80px;
+}
+
+.hero-decoration-2 {
+    width: 340px;
+    height: 340px;
+
+    background: rgba(205,170,125,.18);
+
+    right: -120px;
+    bottom: -120px;
+}
+
+@keyframes floatImage {
+
+    0%,
+    100%{
+        transform: translateY(0);
+    }
+
+    50%{
+        transform: translateY(-12px);
+    }
+}
+
+/* =========================================================
+   FEATURED PRODUCTS
+========================================================= */
+
+.featured-products{
+    background:var(--color-background);
+}
+
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:2rem;
+    margin-top:4rem;
+}
+
+.product-card{
+    background:#fff;
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:var(--shadow-sm);
+    transition:var(--transition);
+}
+
+.product-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:var(--shadow-lg);
+}
+
+.product-image {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
+
+.product-card:hover .product-image img{
+    transform:scale(1.06);
+}
+
+.product-content{
+    padding:1.5rem;
+}
+
+.product-title{
+    margin:1rem 0 .5rem;
+}
+
+.product-price{
+    color:var(--color-primary);
+    font-size:1.2rem;
+    font-weight:700;
+    margin-bottom:1.5rem;
+}
+
+.product-content .btn{
+    width:100%;
+}
+
+/* =========================================================
+   WISHLIST BUTTON
+========================================================= */
+
+.product-image{
+    position:relative;
+}
+
+.wishlist-btn{
+
+    position:absolute;
+
+    top:1rem;
+    right:1rem;
+
+    width:44px;
+    height:44px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.92);
+
+    backdrop-filter:blur(10px);
+
+    box-shadow:var(--shadow-sm);
+
+    z-index:2;
+
+    transition:var(--transition);
+}
+
+.wishlist-btn:hover{
+
+    background:var(--color-primary);
+
+    color:white;
+
+    transform:scale(1.08);
+}
+
+/* =========================================================
+   WHY CHOOSE SHESALES
+========================================================= */
+
+.why-choose{
+    background:var(--color-surface);
+}
+
+.why-grid{
+    margin-top:4rem;
+}
+
+.why-card{
+
+    background:#fff;
+
+    padding:2.5rem 2rem;
+
+    border-radius:var(--radius-lg);
+
+    text-align:center;
+
+    border:1px solid var(--color-border);
+
+    box-shadow:var(--shadow-sm);
+
+    transition:var(--transition);
+}
+
+.why-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:var(--shadow-lg);
+
+    border-color:rgba(138,90,68,.2);
+}
+
+.why-icon{
+
+    width:72px;
+
+    height:72px;
+
+    margin:0 auto 1.5rem;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:rgba(138,90,68,.08);
+
+    font-size:2rem;
+
+    transition:var(--transition);
+}
+
+.why-card:hover .why-icon{
+
+    transform:scale(1.08) rotate(5deg);
+
+    background:var(--color-primary);
+
+    color:#fff;
+}
+
+.why-card h3{
+
+    margin-bottom:1rem;
+
+    font-size:1.5rem;
+}
+
+.why-card p{
+
+    max-width:260px;
+
+    margin:0 auto;
+}
+
+/* =========================================================
+   BEST SELLERS
+========================================================= */
+
+.best-sellers {
+    background: var(--color-background);
+}
+
+
+/* -----------------------------------------
+   Section Header
+----------------------------------------- */
+
+.best-sellers .section-header {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    margin-bottom: 4rem;
+}
+
+.section-header-content {
+    max-width: 650px;
+}
+
+.section-eyebrow {
+    display: block;
+
+    margin-bottom: 0.75rem;
+
+    color: var(--color-primary);
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.75rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.15em;
+
+    text-transform: uppercase;
+}
+
+.section-header h2 {
+    margin-bottom: 1rem;
+}
+
+.section-header p {
+    max-width: 580px;
+
+    margin: 0;
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+    color: var(--color-text-muted);
+}
+
+
+/* -----------------------------------------
+   View All Link
+----------------------------------------- */
+
+.best-sellers-link {
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding-bottom: 0.35rem;
+
+    border-bottom:
+        1px solid
+        var(--color-primary);
+
+    color: var(--color-primary);
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.best-sellers-link:hover {
+    transform: translateX(4px);
+
+    color: var(--color-text);
+
+    border-color:
+        var(--color-text);
+}
+
+
+/* -----------------------------------------
+   Best Sellers Grid
+----------------------------------------- */
+
+.best-sellers-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 2rem;
+}
+
+
+/* -----------------------------------------
+   Responsive
+----------------------------------------- */
+
+@media (max-width: 1024px) {
+
+    .best-sellers-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 1.5rem;
+    }
+
+}
+
+
+@media (max-width: 640px) {
+
+    .best-sellers .section-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        margin-bottom: 2.5rem;
+    }
+
+
+    .best-sellers-grid {
+        grid-template-columns: 1fr;
+
+        gap: 2rem;
+    }
+
+}
+
+/* =========================================================
+   TESTIMONIALS
+========================================================= */
+
+.testimonials {
+    background:
+        linear-gradient(
+            180deg,
+            #faf7f3 0%,
+            #f6f0ea 100%
+        );
+}
+
+
+/* -----------------------------------------
+   Header
+----------------------------------------- */
+
+.testimonials-header {
+    max-width: 650px;
+
+    margin: 0 auto 4rem;
+
+    text-align: center;
+}
+
+.testimonials-header .section-eyebrow {
+    margin-bottom: 0.75rem;
+}
+
+.testimonials-header h2 {
+    margin-bottom: 1rem;
+}
+
+.testimonials-header p {
+    max-width: 580px;
+
+    margin: 0 auto;
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+    color: var(--color-text-muted);
+}
+
+
+/* -----------------------------------------
+   Grid
+----------------------------------------- */
+
+.testimonials-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 2rem;
+}
+
+
+/* -----------------------------------------
+   Card
+----------------------------------------- */
+
+.testimonial-card {
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 2.5rem 2rem;
+
+    background: #ffffff;
+
+    border:
+        1px solid
+        var(--color-border);
+
+    border-radius:
+        var(--radius-lg);
+
+    box-shadow:
+        var(--shadow-sm);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+        var(--shadow-lg);
+}
+
+
+/* -----------------------------------------
+   Stars
+----------------------------------------- */
+
+.testimonial-stars {
+    margin-bottom: 1.5rem;
+
+    color:
+        var(--color-primary);
+
+    font-size: 1rem;
+
+    letter-spacing: 0.15em;
+}
+
+
+/* -----------------------------------------
+   Quote
+----------------------------------------- */
+
+.testimonial-card blockquote {
+    flex: 1;
+
+    margin: 0 0 2rem;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 1.4rem;
+
+    font-weight: 500;
+
+    line-height: 1.5;
+
+    color:
+        var(--color-text);
+}
+
+
+/* -----------------------------------------
+   Author
+----------------------------------------- */
+
+.testimonial-author {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.9rem;
+
+    padding-top: 1.5rem;
+
+    border-top:
+        1px solid
+        var(--color-border);
+}
+
+.testimonial-avatar {
+    width: 44px;
+
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(138, 90, 68, 0.1);
+
+    color:
+        var(--color-primary);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 1.4rem;
+
+    font-weight: 600;
+}
+
+.testimonial-author h3 {
+    margin: 0 0 0.2rem;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.9rem;
+
+    font-weight: 600;
+}
+
+.testimonial-author span {
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 0.75rem;
+
+    color:
+        var(--color-text-muted);
+}
+
+
+/* -----------------------------------------
+   Responsive
+----------------------------------------- */
+
+@media (max-width: 1024px) {
+
+    .testimonials-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 640px) {
+
+    .testimonials-header {
+        margin-bottom: 2.5rem;
+    }
+
+
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1.5rem;
+    }
+
+
+    .testimonial-card {
+        padding: 2rem 1.5rem;
+    }
+
+
+    .testimonial-card blockquote {
+        font-size: 1.3rem;
+    }
+
+}
+
+/* =========================================================
+   NEWSLETTER
+========================================================= */
+
+.newsletter {
+    background:
+        var(--color-primary);
+
+    color:
+        #ffffff;
+}
+
+
+.newsletter-content {
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+
+.newsletter .section-eyebrow {
+    color:
+        rgba(255, 255, 255, 0.75);
+}
+
+
+.newsletter h2 {
+    max-width: 650px;
+
+    margin:
+        0 auto 1rem;
+
+    color:
+        #ffffff;
+}
+
+
+.newsletter-content > p {
+    max-width: 560px;
+
+    margin:
+        0 auto 2rem;
+
+    color:
+        rgba(255, 255, 255, 0.8);
+
+    line-height: 1.8;
+}
+
+
+/* -----------------------------------------
+   Newsletter Form
+----------------------------------------- */
+
+.newsletter-form {
+    display: flex;
+
+    max-width: 580px;
+
+    margin: 0 auto;
+
+    gap: 0.75rem;
+}
+
+
+.newsletter-form input {
+    flex: 1;
+
+    min-width: 0;
+
+    height: 52px;
+
+    padding:
+        0 1.25rem;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.25);
+
+    border-radius:
+        var(--radius-sm);
+
+    outline: none;
+
+    background:
+        rgba(255, 255, 255, 0.95);
+
+    color:
+        var(--color-text);
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size:
+        0.875rem;
+}
+
+
+.newsletter-form input::placeholder {
+    color:
+        #8d8179;
+}
+
+
+.newsletter-form input:focus {
+    border-color:
+        #ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255, 255, 255, 0.15);
+}
+
+
+.newsletter-form .btn {
+    flex-shrink: 0;
+
+    min-width: 130px;
+
+    border:
+        1px solid
+        #ffffff;
+
+    background:
+        #ffffff;
+
+    color:
+        var(--color-primary);
+}
+
+
+.newsletter-form .btn:hover {
+    background:
+        transparent;
+
+    color:
+        #ffffff;
+}
+
+
+/* -----------------------------------------
+   Newsletter Message
+----------------------------------------- */
+
+.newsletter-message {
+    min-height: 1.5rem;
+
+    margin-top: 1rem;
+
+    font-size:
+        0.85rem;
+
+    color:
+        rgba(255, 255, 255, 0.9);
+}
+
+
+/* -----------------------------------------
+   Mobile
+----------------------------------------- */
+
+@media (max-width: 640px) {
+
+    .newsletter-form {
+        flex-direction:
+            column;
+    }
+
+
+    .newsletter-form input,
+    .newsletter-form .btn {
+        width:
+            100%;
+    }
+}
+
+    
+/* =========================================================
+   COLLECTIONS COLLAGE - FINAL
+========================================================= */
+
+.gallery {
+    padding: 100px 0;
+    background: #f8f4ef;
+}
+
+.gallery .section-header {
+    max-width: 700px;
+    margin: 0 auto 50px;
+    text-align: center;
+}
+
+
+/* COLLAGE */
+
+.collection-collage {
+    position: relative;
+    width: 100%;
+    max-width: 850px;
+    height: 550px;
+    margin: 0 auto;
+}
+
+
+/* EVERY SLIDE MUST BE HIDDEN */
+
+.collection-collage .collage-slide {
+    position: absolute !important;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: grid !important;
+
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+    gap: 8px;
+
+    opacity: 0;
+    visibility: hidden;
+
+    overflow: hidden;
+
+    transition:
+        opacity 1s ease,
+        visibility 1s ease;
+}
+
+
+/* ONLY ACTIVE SLIDE SHOWS */
+
+.collection-collage .collage-slide.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* IMAGES */
+
+.collection-collage .collage-item {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+
+.collection-collage .collage-item img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.6s ease;
+}
+
+
+.collection-collage .collage-item:hover img {
+    transform: scale(1.05);
+}
+
+
+/* CTA */
+
+.gallery-cta {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 40px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .collection-collage {
+        height: 450px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .gallery {
+        padding: 60px 0;
+    }
+
+    .collection-collage {
+        height: 360px;
+    }
+
+    .collection-collage .collage-slide {
+        gap: 5px;
+    }
+
+}
+
+/* =========================================================
+   COLLECTIONS - FORCE COLLAGE SIZE
+========================================================= */
+
+#collections .collection-collage {
+    width: 100%;
+    max-width: 700px;
+    height: 450px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+#collections .collage-slide {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: 1fr 1fr !important;
+
+    gap: 6px !important;
+
+    opacity: 0;
+    visibility: hidden;
+}
+
+#collections .collage-slide.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#collections .collage-item {
+    width: 100% !important;
+    height: 100% !important;
+
+    display: block;
+
+    overflow: hidden;
+}
+
+#collections .collage-item img {
+    width: 100% !important;
+    height: 100% !important;
+
+    display: block;
+
+    object-fit: cover !important;
+}
+

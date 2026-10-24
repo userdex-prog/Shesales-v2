@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<meta
+    name="description"
+    content="Complete your SheSales handmade crochet order."
+>
+
+<title>Checkout | SheSales</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/checkout.css">
+
+<script type="module" src="../js/checkout.js"></script>
+
+
+</head>
+
+<body class="checkout-page">
+
+
+<main class="checkout-container">
+
+    <header class="checkout-header">
+        <a href="../../index.html" class="checkout-logo">
+            SheSales
+        </a>
+
+        <p>Thoughtfully handmade, just for you.</p>
+
+        <a href="/src/pages/marketplace.html" class="back-to-shop">
+            Continue shopping
+        </a>
+    </header>
+
+    <section class="checkout-intro">
+        <span class="checkout-eyebrow">YOUR ORDER</span>
+
+        <h1>Checkout</h1>
+
+        <p>
+            You're one step closer to owning something beautifully handmade.
+        </p>
+    </section>
+
+    <div class="checkout-layout">
+
+        <!-- CUSTOMER INFORMATION -->
+
+        <section class="checkout-card customer-card">
+
+            <div class="checkout-section-heading">
+                <span class="checkout-step">01</span>
+
+                <div>
+                    <h2>Delivery Information</h2>
+                    <p>Where should we send your order?</p>
+                </div>
+            </div>
+
+            <form id="checkout-form">
+
+                <div class="checkout-form-grid">
+
+                    <div class="checkout-field">
+                        <label for="customer-name">
+                            Full name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customer-name"
+                            name="customerName"
+                            autocomplete="name"
+                            required
+                            maxlength="100"
+                        >
+                    </div>
+
+                    <div class="checkout-field">
+                        <label for="customer-email">
+                            Email address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="customer-email"
+                            name="customerEmail"
+                            autocomplete="email"
+                            required
+                            maxlength="254"
+                        >
+                    </div>
+
+                    <div class="checkout-field">
+                        <label for="customer-phone">
+                            Phone number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="customer-phone"
+                            name="customerPhone"
+                            autocomplete="tel"
+                            required
+                            maxlength="25"
+                        >
+                    </div>
+
+                    <div class="checkout-field">
+                        <label for="customer-city">
+                            City
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customer-city"
+                            name="customerCity"
+                            autocomplete="address-level2"
+                            required
+                            maxlength="100"
+                        >
+                    </div>
+
+                    <div class="checkout-field full-width">
+                        <label for="customer-address">
+                            Full delivery address
+                        </label>
+
+                        <textarea
+                            id="customer-address"
+                            name="customerAddress"
+                            autocomplete="street-address"
+                            rows="3"
+                            required
+                            maxlength="500"
+                        ></textarea>
+                    </div>
+
+                    <div class="checkout-field">
+                        <label for="customer-postal">
+                            Postal code
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customer-postal"
+                            name="customerPostal"
+                            autocomplete="postal-code"
+                            required
+                            maxlength="20"
+                        >
+                    </div>
+
+                </div>
+
+                <!-- PAYMENT METHOD -->
+
+                <div class="checkout-divider"></div>
+
+                <div class="checkout-section-heading">
+                    <span class="checkout-step">02</span>
+
+                    <div>
+                        <h2>Payment Method</h2>
+                        <p>Pay through a bank transfer.</p>
+                    </div>
+                </div>
+
+                <div class="payment-option">
+
+                    <span class="payment-radio-indicator"></span>
+
+                    <div class="payment-option-content">
+                        <strong>Bank Transfer</strong>
+
+                        <p>
+                            Transfer the order amount to our bank account.
+                            Your payment will be verified manually.
+                        </p>
+                    </div>
+
+                    <span class="payment-badge">
+                        MANUAL
+                    </span>
+
+                </div>
+
+                <div class="payment-notice">
+                    <strong>How payment works</strong>
+
+                    <p>
+                        After placing your order, you'll receive an order
+                        reference. The store will provide verified bank
+                        transfer instructions before you make your payment.
+                    </p>
+
+                    <p>
+                        Your order will remain pending until the store
+                        confirms receipt of the funds.
+                    </p>
+                </div>
+
+                <div
+                    id="checkout-message"
+                    class="checkout-message"
+                    role="status"
+                    aria-live="polite"
+                    hidden
+                ></div>
+
+                <button
+                    type="submit"
+                    id="place-order-button"
+                    class="checkout-submit-button"
+                >
+                    Place Order
+                </button>
+
+                <p class="checkout-terms">
+                    By placing your order, you confirm that your delivery
+                    information is accurate.
+                </p>
+
+            </form>
+
+        </section>
+
+        <!-- ORDER SUMMARY -->
+
+        <aside class="checkout-card order-summary-card">
+
+            <div class="checkout-section-heading">
+                <span class="checkout-step">03</span>
+
+                <div>
+                    <h2>Order Summary</h2>
+                    <p>Review your handmade selections.</p>
+                </div>
+            </div>
+
+            <div
+                id="checkout-cart-items"
+                class="checkout-cart-items"
+            >
+                <p class="checkout-loading">
+                    Loading your cart...
+                </p>
+            </div>
+
+            <div class="checkout-divider"></div>
+
+            <div class="checkout-total-row">
+                <span>Subtotal</span>
+
+                <strong id="checkout-subtotal">₹0.00</strong>
+            </div>
+
+            <div class="checkout-total-row">
+                <span>Delivery</span>
+
+                <span id="checkout-delivery">
+                    Calculated separately
+                </span>
+            </div>
+
+            <div class="checkout-divider"></div>
+
+            <div class="checkout-grand-total">
+                <span>Total</span>
+
+                <strong id="checkout-total">₹0.00</strong>
+            </div>
+
+            <p class="checkout-currency-note">
+                Prices are displayed in Indian rupees (INR).
+                Final product prices and delivery charges must be confirmed
+                by the store.
+            </p>
+
+            <a
+                href="/src/pages/marketplace.html"
+                class="checkout-back-link"
+            >
+                ← Return to shop
+            </a>
+
+        </aside>
+
+    </div>
+
+    <footer class="checkout-footer">
+        <p>
+            Handmade crochet creations, thoughtfully crafted with love
+            and care in India.
+        </p>
+
+        <p>© SheSales. All rights reserved.</p>
+    </footer>
+
+</main>
+
+
+</body>
+</html>
