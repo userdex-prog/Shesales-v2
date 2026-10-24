@@ -1,4 +1,4 @@
-import { formatPrice } from "../js/formatPrice.js";
+import { formatPrice } from "../js/formatprice.js";
 
 export function createProductCard(product) {
 const productId = String(product.id);
