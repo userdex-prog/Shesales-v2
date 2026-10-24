@@ -7,7 +7,7 @@ import { createFooter } from "../components/footer.js";
 import { createFeaturedProducts } from "../components/featuredProducts.js";
 import { createBestSellers } from "../components/bestSellers.js";
 import { createAbout } from "../components/about.js";
-import { createWhyChoose } from "../components/whyChoose.js";
+import { createWhyChoose } from "../components/whychoose.js";
 import { createTestimonials } from "../components/testimonials.js";
 
 import { createGallery } from "../components/gallery.js";
