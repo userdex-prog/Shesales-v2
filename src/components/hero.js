@@ -1,56 +1,57 @@
+import peonyBag from "../assets/products/peony-bouquet-bag.jpeg";
+
 export function createHero() {
-    return `
-        <section class="hero">
+return ` <section class="hero">
 
-            <div class="hero-decoration hero-decoration-1"></div>
-            <div class="hero-decoration hero-decoration-2"></div>
 
-            <div class="container hero-container">
+        <div class="hero-decoration hero-decoration-1"></div>
+        <div class="hero-decoration hero-decoration-2"></div>
 
-                <div class="hero-content">
+        <div class="container hero-container">
 
-                    <span class="hero-tag">
-                        Handmade • Premium • Crochet
-                    </span>
+            <div class="hero-content">
 
-                    <h1>
-                        Handmade With Love,
-                        <span>One Stitch At A Time.</span>
-                    </h1>
+                <span class="hero-tag">
+                    Handmade • Premium • Crochet
+                </span>
 
-                    <p>
-                        Every crochet piece is handcrafted with care, creativity,
-                        and attention to detail—made to bring warmth and joy into
-                        your everyday life.
-                    </p>
+                <h1>
+                    Handmade With Love,
+                    <span>One Stitch At A Time.</span>
+                </h1>
 
-                    <div class="hero-buttons">
+                <p>
+                    Every crochet piece is handcrafted with care, creativity,
+                    and attention to detail—made to bring warmth and joy into
+                    your everyday life.
+                </p>
 
-                        <a href="/src/pages/marketplace.html" class="btn btn-primary">
-                            Shop Collection
-                        </a>
+                <div class="hero-buttons">
 
-                       <a href="/src/pages/policies.html#custom-orders" class="btn btn-outline">
-    Custom Orders
-</a>
+                    <a href="/src/pages/marketplace.html" class="btn btn-primary">
+                        Shop Collection
+                    </a>
 
-    
-
-                    </div>
-
-                </div>
-
-                <div class="hero-image">
-<img
-    src="/src/assets/products/peony-bouquet-bag.jpeg"
-    alt="Handmade Peony Bouquet Crochet Bag"
->
-
+                    <a href="/src/pages/policies.html#custom-orders" class="btn btn-outline">
+                        Custom Orders
+                    </a>
 
                 </div>
 
             </div>
 
-        </section>
-    `;
+            <div class="hero-image">
+                <img
+                    src="${peonyBag}"
+                    alt="Handmade Peony Bouquet Crochet Bag"
+                    fetchpriority="high"
+                >
+            </div>
+
+        </div>
+
+    </section>
+`;
+
+
 }

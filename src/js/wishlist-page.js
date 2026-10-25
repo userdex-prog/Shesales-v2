@@ -124,28 +124,15 @@ try {
     );
 
     /*
-     * Keep local products and Firebase products.
-     * Firebase products replace local products
-     * with the same name.
-     */
+ * Keep local and Firebase products separately.
+ * This preserves both sets of product IDs so
+ * existing wishlist entries can still be matched.
+ */
 
-    const productMap = new Map();
-
-    local.forEach(product => {
-        productMap.set(
-            product.name.trim().toLowerCase(),
-            product
-        );
-    });
-
-    firebaseProducts.forEach(product => {
-        productMap.set(
-            product.name.trim().toLowerCase(),
-            product
-        );
-    });
-
-    allProducts = Array.from(productMap.values());
+allProducts = [
+    ...local,
+    ...firebaseProducts
+];
 
 } catch (error) {
     console.error(
@@ -174,6 +161,14 @@ const savedIds = getWishlist().map(String);
 
 const savedProducts = allProducts.filter(product =>
     savedIds.includes(getProductId(product))
+);
+
+console.table(
+    allProducts.map(product => ({
+        id: product.id,
+        name: product.name,
+        source: product.source
+    }))
 );
 
 if (savedProducts.length === 0) {

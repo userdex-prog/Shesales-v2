@@ -1,3 +1,4 @@
+
 /* =========================================
    CART STORAGE
 ========================================= */
@@ -10,30 +11,35 @@ const CART_STORAGE_KEY = "shesales-cart";
 ========================================= */
 
 export function getCart() {
-
     try {
+        const storedCart = localStorage.getItem(CART_STORAGE_KEY);
 
-        const storedCart =
-            localStorage.getItem(
-                CART_STORAGE_KEY
-            );
+        if (!storedCart) {
+            return [];
+        }
 
+        const parsedCart = JSON.parse(storedCart);
 
-        return storedCart
-            ? JSON.parse(storedCart)
-            : [];
+        if (!Array.isArray(parsedCart)) {
+            return [];
+        }
 
+        return parsedCart
+            .filter(item =>
+                item &&
+                item.productId !== undefined &&
+                Number.isFinite(Number(item.quantity)) &&
+                Number(item.quantity) > 0
+            )
+            .map(item => ({
+                ...item,
+                productId: String(item.productId),
+                quantity: Math.floor(Number(item.quantity))
+            }));
     } catch (error) {
-
-        console.error(
-            "Unable to load cart:",
-            error
-        );
-
+        console.error("Unable to load cart:", error);
         return [];
-
     }
-
 }
 
 
@@ -42,12 +48,19 @@ export function getCart() {
 ========================================= */
 
 export function saveCart(cart) {
+    try {
+        localStorage.setItem(
+            CART_STORAGE_KEY,
+            JSON.stringify(cart)
+        );
 
-    localStorage.setItem(
-        CART_STORAGE_KEY,
-        JSON.stringify(cart)
-    );
+        updateCartCount();
 
+        return true;
+    } catch (error) {
+        console.error("Unable to save cart:", error);
+        return false;
+    }
 }
 
 
@@ -55,48 +68,32 @@ export function saveCart(cart) {
    ADD TO CART
 ========================================= */
 
-export function addToCart(
-    productId,
-    quantity = 1
-) {
+export function addToCart(productId, quantity = 1) {
+    const id = String(productId);
+    const amount = Math.floor(Number(quantity));
 
-    const cart =
-        getCart();
-
-
-    const existingItem =
-        cart.find(
-            item =>
-                item.productId === productId
-        );
-
-
-    if (existingItem) {
-
-        existingItem.quantity +=
-            quantity;
-
-    } else {
-
-        cart.push({
-
-            productId,
-
-            quantity
-
-        });
-
+    if (!id || !Number.isFinite(amount) || amount < 1) {
+        return getCart();
     }
 
+    const cart = getCart();
+
+    const existingItem = cart.find(
+        item => String(item.productId) === id
+    );
+
+    if (existingItem) {
+        existingItem.quantity += amount;
+    } else {
+        cart.push({
+            productId: id,
+            quantity: amount
+        });
+    }
 
     saveCart(cart);
 
-
-    updateCartCount();
-
-
     return cart;
-
 }
 
 
@@ -105,12 +102,13 @@ export function addToCart(
 ========================================= */
 
 export function removeFromCart(productId) {
+    const id = String(productId);
+
     const updatedCart = getCart().filter(
-        item => String(item.productId) !== String(productId)
+        item => String(item.productId) !== id
     );
 
     saveCart(updatedCart);
-    updateCartCount();
 
     return updatedCart;
 }
@@ -121,49 +119,40 @@ export function removeFromCart(productId) {
 ========================================= */
 
 export function updateCartQuantity(productId, quantity) {
+    const id = String(productId);
+    const amount = Math.floor(Number(quantity));
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+        return removeFromCart(id);
+    }
+
     const cart = getCart();
 
     const item = cart.find(
-        item => String(item.productId) === String(productId)
+        entry => String(entry.productId) === id
     );
 
     if (!item) {
         return cart;
     }
 
-    if (quantity <= 0) {
-        return removeFromCart(productId);
-    }
-
-    item.quantity = Number(quantity);
+    item.quantity = amount;
 
     saveCart(cart);
-    updateCartCount();
 
     return cart;
 }
+
 
 /* =========================================
    GET CART ITEM COUNT
 ========================================= */
 
 export function getCartItemCount() {
-
-    const cart =
-        getCart();
-
-
-    return cart.reduce(
-        (
-            total,
-            item
-        ) =>
-            total +
-            item.quantity,
-
+    return getCart().reduce(
+        (total, item) => total + item.quantity,
         0
     );
-
 }
 
 
@@ -172,27 +161,13 @@ export function getCartItemCount() {
 ========================================= */
 
 export function updateCartCount() {
-
-    const cartCount =
-        document.querySelector(
-            ".cart-count"
-        );
-
+    const cartCount = document.querySelector(".cart-count");
 
     if (!cartCount) {
-
         return;
-
     }
 
-
-    const count =
-        getCartItemCount();
-
-
-    cartCount.textContent =
-        count;
-
+    cartCount.textContent = getCartItemCount();
 }
 
 
@@ -200,44 +175,26 @@ export function updateCartCount() {
    CART TOTAL
 ========================================= */
 
-export function getCartTotal(
-    products
-) {
+export function getCartTotal(products = []) {
+    const cart = getCart();
 
-    const cart =
-        getCart();
+    return cart.reduce((total, item) => {
+        const product = products.find(
+            entry =>
+                String(entry.id) === String(item.productId)
+        );
 
+        if (!product) {
+            return total;
+        }
 
-    return cart.reduce(
-        (
-            total,
-            item
-        ) => {
+        const price = Number(product.price);
 
-            const product =
-                products.find(
-                    product =>
-                        product.id ===
-                        item.productId
-                );
+        if (!Number.isFinite(price) || price < 0) {
+            return total;
+        }
 
-
-            if (!product) {
-
-                return total;
-
-            }
-
-
-            return (
-                total +
-                product.price *
-                item.quantity
-            );
-
-        },
-
-        0
-    );
-
+        return total + price * item.quantity;
+    }, 0);
 }
+

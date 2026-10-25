@@ -1,21 +1,22 @@
+
 import { formatPrice } from "./formatPrice.js";
 import { createNavbar } from "../components/navbar.js";
 import { createAnnouncement } from "../components/announcement.js";
 import { createFooter } from "../components/footer.js";
 
 import {
-getCart,
-updateCartQuantity,
-removeFromCart,
-updateCartCount
+    getCart,
+    updateCartQuantity,
+    removeFromCart,
+    updateCartCount
 } from "./cart.js";
 
 import { products as localProducts } from "../data/products.js";
 import { db } from "./firebase.js";
 
 import {
-collection,
-getDocs
+    collection,
+    getDocs
 } from "firebase/firestore";
 
 const header = document.querySelector("#header");
@@ -23,361 +24,459 @@ const main = document.querySelector("#main-content");
 const footer = document.querySelector("footer");
 
 if (header) {
-header.innerHTML = createAnnouncement() + createNavbar();
+    header.innerHTML = createAnnouncement() + createNavbar();
 }
 
 if (footer) {
-footer.innerHTML = createFooter();
+    footer.innerHTML = createFooter();
 }
 
 let allProducts = [];
 
-function normalizeFirebaseProduct(snapshot) {
-const data = snapshot.data();
+function normalizeName(name) {
+    return String(name || "").trim().toLowerCase();
+}
 
+function isUsableImageUrl(value) {
+    if (typeof value !== "string" || !value.trim()) {
+        return false;
+    }
 
-const image =
-    data.imageUrl ||
-    data.image ||
-    (Array.isArray(data.images) ? data.images[0] : "") ||
-    "";
+    // These URLs only work on the computer running the dev server.
+    if (
+        value.includes("localhost") ||
+        value.includes("127.0.0.1")
+    ) {
+        return false;
+    }
 
-return {
-    ...data,
-    id: String(snapshot.id),
-    name: String(data.name || "Untitled product"),
-    price: Number(data.price) || 0,
-    category: String(data.category || "gifts"),
-    image,
-    imageUrl: image,
-    images: Array.isArray(data.images) && data.images.length
-        ? data.images
-        : image ? [image] : []
-};
+    return true;
+}
 
+function getProductImage(product) {
+    const candidates = [
+        product?.image,
+        product?.imageUrl,
+        ...(Array.isArray(product?.images) ? product.images : [])
+    ];
 
+    return candidates.find(isUsableImageUrl) || "";
 }
 
 function normalizeLocalProduct(product) {
-const image =
-product.imageUrl ||
-product.image ||
-(Array.isArray(product.images) ? product.images[0] : "") ||
-"";
+    const image = getProductImage(product);
 
+    return {
+        ...product,
+        id: String(product.id),
+        name: String(product.name || "Untitled product"),
+        price: Number(product.price) || 0,
+        category: String(product.category || "gifts"),
+        image,
+        imageUrl: image,
+        images: image ? [image] : []
+    };
+}
 
-return {
-    ...product,
-    id: String(product.id),
-    price: Number(product.price) || 0,
-    image,
-    imageUrl: image,
-    images: Array.isArray(product.images) && product.images.length
-        ? product.images
-        : image ? [image] : []
-};
+function normalizeFirebaseProduct(snapshot) {
+    const data = snapshot.data();
 
+    const product = {
+        ...data,
+        id: String(snapshot.id),
+        name: String(data.name || "Untitled product"),
+        price: Number(data.price) || 0,
+        category: String(data.category || "gifts")
+    };
 
+    const image = getProductImage(product);
+
+    return {
+        ...product,
+        image,
+        imageUrl: image,
+        images: image ? [image] : []
+    };
 }
 
 async function loadProducts() {
-if (!main) {
-console.error("Cart page could not find #main-content.");
-return;
-}
+    if (!main) {
+        console.error("Cart page could not find #main-content.");
+        return;
+    }
 
+    main.innerHTML = `
+        <section class="cart-page">
+            <div class="container">
+                <p>Loading your shopping cart...</p>
+            </div>
+        </section>
+    `;
 
-main.innerHTML = `
-    <section class="cart-page">
-        <div class="container">
-            <p>Loading your shopping cart...</p>
-        </div>
-    </section>
-`;
+    const localCatalogue = localProducts.map(normalizeLocalProduct);
 
-const localProductsNormalized = localProducts.map(normalizeLocalProduct);
+    // Build lookup tables from the local product catalogue.
+    const localById = new Map();
+    const localByName = new Map();
 
-try {
-    const productsReference = collection(db, "product ID");
-    const snapshot = await getDocs(productsReference);
+    localCatalogue.forEach(product => {
+        localById.set(String(product.id), product);
+        localByName.set(normalizeName(product.name), product);
+    });
 
-    const firebaseProducts = snapshot.docs.map(normalizeFirebaseProduct);
+    try {
+        const productsReference = collection(db, "product ID");
+        const snapshot = await getDocs(productsReference);
 
-    console.log(
-    "Firebase products loaded:",
-    firebaseProducts.map(product => ({
-        id: product.id,
-        name: product.name
-    }))
-);
-
-console.log("Cart contents:", getCart());
-
-    // Keep Firebase products and local products together.
-    // Match by name so we can resolve old numeric IDs too.
-    const productsById = new Map();
-    const productsByName = new Map();
-
-    localProductsNormalized.forEach(product => {
-        productsById.set(String(product.id), product);
-        productsByName.set(
-            String(product.name).trim().toLowerCase(),
-            product
+        const firebaseProducts = snapshot.docs.map(
+            normalizeFirebaseProduct
         );
-    });
 
-    firebaseProducts.forEach(product => {
-        const nameKey = String(product.name).trim().toLowerCase();
-        const localMatch = productsByName.get(nameKey);
+        const productsById = new Map(localById);
+        const productsByName = new Map(localByName);
 
-        productsById.set(String(product.id), product);
+        firebaseProducts.forEach(firebaseProduct => {
+            const firebaseId = String(firebaseProduct.id);
+            const nameKey = normalizeName(firebaseProduct.name);
 
-        if (localMatch) {
-            // Preserve the local ID as an alias for existing cart items.
-            productsById.set(String(localMatch.id), product);
-        }
+            // Prefer matching the Firebase product to the local product
+            // by name, because local images are bundled by Vite.
+            const localMatch =
+                localByName.get(nameKey) ||
+                localById.get(firebaseId);
 
-        productsByName.set(nameKey, product);
-    });
+            if (localMatch) {
+                const mergedProduct = {
+                    ...firebaseProduct,
+                    ...localMatch,
 
-    console.log(
-    "Cart product lookup test:",
-    ["1", "2", "3"].map(id => ({
-        cartId: id,
-        matchedProduct: productsById.get(id)?.name || "NOT FOUND"
-    }))
-);
+                    // Keep both IDs so older cart entries can still resolve.
+                    id: String(localMatch.id),
+                    firebaseId,
 
+                    // Use the imported local image rather than localhost URLs.
+                    image: localMatch.image,
+                    imageUrl: localMatch.imageUrl,
+                    images: localMatch.images,
 
-    allProducts = Array.from(
-    productsById.entries(),
-    ([id, product]) => ({
-        ...product,
-        id: String(id)
-    })
-);
+                    // Keep the Firebase price if it is a valid number.
+                    price: Number.isFinite(Number(firebaseProduct.price))
+                        ? Number(firebaseProduct.price)
+                        : Number(localMatch.price) || 0
+                };
 
-} catch (error) {
-    console.error("Failed to load Firebase products:", error);
-    allProducts = localProductsNormalized;
-}
+                productsById.set(String(localMatch.id), mergedProduct);
+                productsById.set(firebaseId, mergedProduct);
+                productsByName.set(nameKey, mergedProduct);
+            } else {
+                productsById.set(firebaseId, firebaseProduct);
+                productsByName.set(nameKey, firebaseProduct);
+            }
+        });
 
-renderCart();
+        allProducts = [...new Set(productsById.values())];
 
+        console.log(
+            "Cart catalogue:",
+            allProducts.map(product => ({
+                id: product.id,
+                firebaseId: product.firebaseId || "",
+                name: product.name,
+                image: product.image
+            }))
+        );
+    } catch (error) {
+        console.error(
+            "Could not load Firebase products. Using local products:",
+            error
+        );
 
+        allProducts = localCatalogue;
+    }
+
+    console.log("Current cart:", getCart());
+
+    renderCart();
 }
 
 function findProduct(productId) {
     const id = String(productId);
 
-    const product = allProducts.find(
-        item => String(item.id) === id
+    // First try the stored ID.
+    const productById = allProducts.find(product =>
+        String(product.id) === id ||
+        String(product.firebaseId || "") === id
     );
 
-    if (!product) {
-        console.error("Product not found:", id);
+    if (productById) {
+        return productById;
     }
 
-    return product || null;
+    // Older cart entries may have IDs that differ from current IDs.
+    // Try matching the saved cart item's product name as a fallback.
+    const cartItem = getCart().find(item =>
+        String(item.productId) === id
+    );
+
+    if (cartItem?.name) {
+        const name = normalizeName(cartItem.name);
+
+        const productByName = allProducts.find(product =>
+            normalizeName(product.name) === name
+        );
+
+        if (productByName) {
+            return productByName;
+        }
+    }
+
+    console.warn("Cart product could not be matched:", id);
+
+    return null;
 }
 
-console.log("Cart lookup test:", {
-    cartIds: getCart().map(item => item.productId),
-    availableIds: allProducts.map(product => product.id),
-    foundProducts: getCart().map(item => ({
-        id: item.productId,
-        name: findProduct(item.productId)?.name || "NOT FOUND"
-    }))
-});
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
 
 function renderCart() {
-if (!main) return;
+    if (!main) return;
 
-const cart = getCart();
+    const cart = getCart();
 
-updateCartCount();
+    updateCartCount();
 
-if (cart.length === 0) {
+    if (cart.length === 0) {
+        main.innerHTML = `
+            <section class="cart-page">
+                <div class="container">
+                    <div class="empty-cart">
+                        <h1>Your Cart is Empty</h1>
+                        <p>
+                            Discover something beautiful
+                            from our handmade collection.
+                        </p>
+                        <a href="/src/pages/marketplace.html"
+                           class="btn btn-primary">
+                            Explore Marketplace
+                        </a>
+                    </div>
+                </div>
+            </section>
+        `;
+        return;
+    }
+
+    const resolvedItems = cart.map(cartItem => ({
+        cartItem,
+        product: findProduct(cartItem.productId)
+    }));
+
+    const cartItemsHTML = resolvedItems.map(({ cartItem, product }) => {
+        const productId = String(cartItem.productId);
+        const quantity = Math.max(1, Number(cartItem.quantity) || 1);
+
+        if (!product) {
+            return `
+                <article class="cart-item">
+                    <div class="cart-item-details">
+                        <h2>Product unavailable</h2>
+                        <p>
+                            This item could not be matched to the current
+                            catalogue. Remove it and add the product again
+                            from the marketplace.
+                        </p>
+                        <button
+                            type="button"
+                            class="remove-item"
+                            data-id="${escapeHTML(productId)}">
+                            Remove
+                        </button>
+                    </div>
+                </article>
+            `;
+        }
+
+        const image = getProductImage(product);
+        const name = escapeHTML(product.name);
+        const category = escapeHTML(product.category);
+        const itemTotal = Number(product.price) * quantity;
+
+        return `
+            <article class="cart-item"
+                     data-product-id="${escapeHTML(productId)}">
+
+                <div class="cart-item-image">
+                    ${
+                        image
+                            ? `
+                                <img
+                                    src="${escapeHTML(image)}"
+                                    alt="${name}"
+                                    loading="lazy"
+                                    onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
+                                >
+                                <div
+                                    class="cart-image-placeholder"
+                                    hidden>
+                                    Image unavailable
+                                </div>
+                            `
+                            : `
+                                <div class="cart-image-placeholder">
+                                    Image unavailable
+                                </div>
+                            `
+                    }
+                </div>
+
+                <div class="cart-item-details">
+                    <span class="cart-item-category">${category}</span>
+                    <h2>${name}</h2>
+                    <p class="cart-item-price">
+                        ${formatPrice(product.price)}
+                    </p>
+
+                    <div class="cart-item-actions">
+                        <div class="cart-quantity">
+                            <button
+                                type="button"
+                                class="quantity-decrease"
+                                data-id="${escapeHTML(productId)}"
+                                aria-label="Decrease quantity">−</button>
+
+                            <span>${quantity}</span>
+
+                            <button
+                                type="button"
+                                class="quantity-increase"
+                                data-id="${escapeHTML(productId)}"
+                                aria-label="Increase quantity">+</button>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="remove-item"
+                            data-id="${escapeHTML(productId)}">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cart-item-total">
+                    ${formatPrice(itemTotal)}
+                </div>
+            </article>
+        `;
+    }).join("");
+
+    const subtotal = resolvedItems.reduce(
+        (total, { cartItem, product }) => {
+            if (!product) return total;
+
+            const quantity = Math.max(
+                1,
+                Number(cartItem.quantity) || 1
+            );
+
+            return total + Number(product.price) * quantity;
+        },
+        0
+    );
+
     main.innerHTML = `
         <section class="cart-page">
             <div class="container">
-                <div class="empty-cart">
-                    <h1>Your Cart is Empty</h1>
-                    <p>
-                        Discover something beautiful
-                        from our handmade collection.
-                    </p>
-                    <a href="/src/pages/marketplace.html"
-                       class="btn btn-primary">
-                        Explore Marketplace
-                    </a>
+                <div class="cart-heading">
+                    <p class="section-eyebrow">Your Selection</p>
+                    <h1>Shopping Cart</h1>
+                </div>
+
+                <div class="cart-layout">
+                    <div class="cart-items">
+                        ${cartItemsHTML}
+                    </div>
+
+                    <aside class="cart-summary">
+                        <h2>Order Summary</h2>
+
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <strong>${formatPrice(subtotal)}</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span>Calculated at checkout</span>
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <div class="summary-total">
+                            <span>Total</span>
+                            <strong>${formatPrice(subtotal)}</strong>
+                        </div>
+
+                        <a href="/src/pages/checkout.html"
+                           class="btn btn-primary checkout-btn">
+                            Proceed to Checkout
+                        </a>
+
+                        <a href="/src/pages/marketplace.html"
+                           class="continue-shopping">
+                            Continue Shopping
+                        </a>
+                    </aside>
                 </div>
             </div>
         </section>
     `;
-    return;
-}
 
-const resolvedItems = cart.map(cartItem => ({
-    cartItem,
-    product: findProduct(cartItem.productId)
-}));
+    main.querySelectorAll(
+        ".quantity-decrease, .quantity-increase, .remove-item"
+    ).forEach(button => {
+        button.addEventListener("click", () => {
+            const productId = String(button.dataset.id);
 
-const cartItems = resolvedItems.map(({ cartItem, product }) => {
-    if (!product) {
-        return `
-            <article class="cart-item">
-                <div class="cart-item-details">
-                    <h2>Product unavailable</h2>
-                    <p>This product could not be found in the current catalogue.</p>
-                    <button type="button"
-                            class="remove-item"
-                            data-id="${String(cartItem.productId)}">
-                        Remove
-                    </button>
-                </div>
-            </article>
-        `;
-    }
+            if (button.classList.contains("remove-item")) {
+                removeFromCart(productId);
+                renderCart();
+                return;
+            }
 
-    const image =
-        product.imageUrl ||
-        product.image ||
-        product.images?.[0] ||
-        "";
+            const item = getCart().find(cartItem =>
+                String(cartItem.productId) === productId
+            );
 
-    const quantity = Math.max(1, Number(cartItem.quantity) || 1);
-    const itemTotal = Number(product.price) * quantity;
-    const productId = String(cartItem.productId);
+            if (!item) return;
 
-    return `
-        <article class="cart-item" data-product-id="${productId}">
-            <div class="cart-item-image">
-                ${
-                    image
-                        ? `<img src="${image}" alt="${product.name}" loading="lazy">`
-                        : `<div class="cart-image-placeholder">Image unavailable</div>`
-                }
-            </div>
+            const quantity = Math.max(
+                1,
+                Number(item.quantity) || 1
+            );
 
-            <div class="cart-item-details">
-                <span class="cart-item-category">${product.category || ""}</span>
-                <h2>${product.name}</h2>
-                <p class="cart-item-price">${formatPrice(product.price)}</p>
+            if (button.classList.contains("quantity-decrease")) {
+                updateCartQuantity(
+                    item.productId,
+                    quantity - 1
+                );
+            } else {
+                updateCartQuantity(
+                    item.productId,
+                    quantity + 1
+                );
+            }
 
-                <div class="cart-item-actions">
-                    <div class="cart-quantity">
-                        <button type="button"
-                                class="quantity-decrease"
-                                data-id="${productId}"
-                                aria-label="Decrease quantity">−</button>
-
-                        <span>${quantity}</span>
-
-                        <button type="button"
-                                class="quantity-increase"
-                                data-id="${productId}"
-                                aria-label="Increase quantity">+</button>
-                    </div>
-
-                    <button type="button"
-                            class="remove-item"
-                            data-id="${productId}">
-                        Remove
-                    </button>
-                </div>
-            </div>
-
-            <div class="cart-item-total">${formatPrice(itemTotal)}</div>
-        </article>
-    `;
-}).join("");
-
-const subtotal = resolvedItems.reduce((total, { cartItem, product }) => {
-    if (!product) return total;
-
-    return total +
-        Number(product.price) *
-        Math.max(1, Number(cartItem.quantity) || 1);
-}, 0);
-
-main.innerHTML = `
-    <section class="cart-page">
-        <div class="container">
-            <div class="cart-heading">
-                <p class="section-eyebrow">Your Selection</p>
-                <h1>Shopping Cart</h1>
-            </div>
-
-            <div class="cart-layout">
-                <div class="cart-items">${cartItems}</div>
-
-                <aside class="cart-summary">
-                    <h2>Order Summary</h2>
-
-                    <div class="summary-row">
-                        <span>Subtotal</span>
-                        <strong>${formatPrice(subtotal)}</strong>
-                    </div>
-
-                    <div class="summary-row">
-                        <span>Shipping</span>
-                        <span>Calculated at checkout</span>
-                    </div>
-
-                    <div class="summary-divider"></div>
-
-                    <div class="summary-total">
-                        <span>Total</span>
-                        <strong>${formatPrice(subtotal)}</strong>
-                    </div>
-
-                    <a href="/src/pages/checkout.html"
-                       class="btn btn-primary checkout-btn">
-                        Proceed to Checkout
-                    </a>
-
-                    <a href="/src/pages/marketplace.html"
-                       class="continue-shopping">
-                        Continue Shopping
-                    </a>
-                </aside>
-            </div>
-        </div>
-    </section>
-`;
-
-main.querySelectorAll(
-    ".quantity-decrease, .quantity-increase, .remove-item"
-).forEach(button => {
-    button.addEventListener("click", () => {
-        const productId = String(button.dataset.id);
-
-        if (button.classList.contains("remove-item")) {
-            removeFromCart(productId);
             renderCart();
-            return;
-        }
-
-        const item = getCart().find(
-            cartItem => String(cartItem.productId) === productId
-        );
-
-        if (!item) return;
-
-        const quantity = Number(item.quantity) || 1;
-
-        if (button.classList.contains("quantity-decrease")) {
-            updateCartQuantity(item.productId, quantity - 1);
-        } else {
-            updateCartQuantity(item.productId, quantity + 1);
-        }
-
-        renderCart();
+        });
     });
-});
-
-
 }
 
 loadProducts();
+

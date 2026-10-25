@@ -1,3 +1,4 @@
+
 /* =========================================
    WISHLIST STORAGE
 ========================================= */
@@ -10,29 +11,30 @@ const WISHLIST_STORAGE_KEY = "shesales-wishlist";
 ========================================= */
 
 export function getWishlist() {
-
     try {
+        const storedWishlist = localStorage.getItem(
+            WISHLIST_STORAGE_KEY
+        );
 
-        const storedWishlist =
-            localStorage.getItem(
-                WISHLIST_STORAGE_KEY
-            );
-
-        return storedWishlist
+        const wishlist = storedWishlist
             ? JSON.parse(storedWishlist)
             : [];
 
+        if (!Array.isArray(wishlist)) {
+            return [];
+        }
+
+        // Keep product IDs consistent.
+        return [...new Set(
+            wishlist
+                .filter(id => id !== null && id !== undefined)
+                .map(String)
+        )];
+
     } catch (error) {
-
-        console.error(
-            "Unable to load wishlist:",
-            error
-        );
-
+        console.error("Unable to load wishlist:", error);
         return [];
-
     }
-
 }
 
 
@@ -41,12 +43,18 @@ export function getWishlist() {
 ========================================= */
 
 export function saveWishlist(wishlist) {
+    const normalizedWishlist = [
+        ...new Set(
+            wishlist
+                .filter(id => id !== null && id !== undefined)
+                .map(String)
+        )
+    ];
 
     localStorage.setItem(
         WISHLIST_STORAGE_KEY,
-        JSON.stringify(wishlist)
+        JSON.stringify(normalizedWishlist)
     );
-
 }
 
 
@@ -55,12 +63,7 @@ export function saveWishlist(wishlist) {
 ========================================= */
 
 export function isInWishlist(productId) {
-
-    const wishlist =
-        getWishlist();
-
-    return wishlist.includes(productId);
-
+    return getWishlist().includes(String(productId));
 }
 
 
@@ -69,20 +72,15 @@ export function isInWishlist(productId) {
 ========================================= */
 
 export function addToWishlist(productId) {
+    const normalizedId = String(productId);
+    const wishlist = getWishlist();
 
-    const wishlist =
-        getWishlist();
-
-    if (!wishlist.includes(productId)) {
-
-        wishlist.push(productId);
-
+    if (!wishlist.includes(normalizedId)) {
+        wishlist.push(normalizedId);
         saveWishlist(wishlist);
-
     }
 
-    return wishlist;
-
+    return getWishlist();
 }
 
 
@@ -91,19 +89,15 @@ export function addToWishlist(productId) {
 ========================================= */
 
 export function removeFromWishlist(productId) {
+    const normalizedId = String(productId);
 
-    const updatedWishlist =
-        getWishlist().filter(
-            id =>
-                id !== productId
-        );
-
-    saveWishlist(
-        updatedWishlist
+    const updatedWishlist = getWishlist().filter(
+        id => id !== normalizedId
     );
 
-    return updatedWishlist;
+    saveWishlist(updatedWishlist);
 
+    return updatedWishlist;
 }
 
 
@@ -112,21 +106,11 @@ export function removeFromWishlist(productId) {
 ========================================= */
 
 export function toggleWishlist(productId) {
-
-    if (
-        isInWishlist(productId)
-    ) {
-
-        return removeFromWishlist(
-            productId
-        );
-
+    if (isInWishlist(productId)) {
+        return removeFromWishlist(productId);
     }
 
-    return addToWishlist(
-        productId
-    );
-
+    return addToWishlist(productId);
 }
 
 
@@ -135,7 +119,6 @@ export function toggleWishlist(productId) {
 ========================================= */
 
 export function getWishlistCount() {
-
     return getWishlist().length;
-
 }
+
