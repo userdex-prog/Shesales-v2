@@ -1,4 +1,4 @@
-
+import { products as localProducts } from "../data/products.js";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { auth, db } from "./firebase.js";
@@ -1660,18 +1660,89 @@ if (button.dataset.action === "delete-custom-order") {
     }
 
 
-    function getProductImage(product) {
 
-        return product.imageUrl ||
-            product.image ||
-            (
-                Array.isArray(product.images)
-                    ? product.images[0]
-                    : ""
-            ) ||
-            "";
+function normalizeProductName(value) {
+    return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+}
 
+function isUsableProductImage(value) {
+    if (typeof value !== "string" || !value.trim()) {
+        return false;
     }
+
+    try {
+        const url = new URL(value.trim(), window.location.href);
+
+        if (!["https:", "http:"].includes(url.protocol)) {
+            return false;
+        }
+
+        // Reject old development-server URLs.
+        if (
+            ["localhost", "127.0.0.1", "::1"].includes(
+                url.hostname.replace(/^\[|\]$/g, "")
+            )
+        ) {
+            return false;
+        }
+
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+function getProductImage(product) {
+    const productName = normalizeProductName(product?.name);
+
+    // Find the matching product bundled with the website.
+    const localProduct = localProducts.find(item =>
+        normalizeProductName(item.name) === productName
+    );
+
+    // Prefer valid Firebase image URLs.
+    const firebaseCandidates = [
+        ...(Array.isArray(product?.images) ? product.images : []),
+        product?.imageUrl,
+        product?.image
+    ];
+
+    const firebaseImage = firebaseCandidates.find(
+        isUsableProductImage
+    );
+
+    if (firebaseImage) {
+        return firebaseImage.trim();
+    }
+
+    // Fall back to the image imported by Vite.
+    if (localProduct) {
+        const localCandidates = [
+            ...(Array.isArray(localProduct.images)
+                ? localProduct.images
+                : []),
+            localProduct.imageUrl,
+            localProduct.image
+        ];
+
+        const localImage = localCandidates.find(value =>
+            typeof value === "string" && value.trim()
+        );
+
+        if (localImage) {
+            return localImage.trim();
+        }
+    }
+
+    return "";
+}
+
+
+
+
 
 
     /* =====================================================

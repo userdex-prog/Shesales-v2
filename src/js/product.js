@@ -140,28 +140,44 @@ try {
         normalizeFirebaseProduct
     );
 
-    /*
-     * Firebase products replace local products
-     * with matching names.
-     */
+   /*
+ * Merge Firebase and local products.
+ * Preserve local Vite-imported images when available.
+ */
 
-    const productMap = new Map();
+const productMap = new Map();
 
-    allProducts.forEach(product => {
-        productMap.set(
-            String(product.name).trim().toLowerCase(),
-            product
-        );
-    });
+firebaseProducts.forEach(product => {
+    const key = String(product.name).trim().toLowerCase();
 
-    firebaseProducts.forEach(product => {
-        productMap.set(
-            String(product.name).trim().toLowerCase(),
-            product
-        );
-    });
+    productMap.set(key, product);
+});
 
-    allProducts = Array.from(productMap.values());
+localProducts.forEach(localProduct => {
+    const local = normalizeLocalProduct(localProduct);
+    const key = String(local.name).trim().toLowerCase();
+
+    const firebaseProduct = productMap.get(key);
+
+    if (firebaseProduct) {
+        productMap.set(key, {
+            ...local,
+            ...firebaseProduct,
+
+            // Preserve the Firebase ID for product-page lookup.
+            id: firebaseProduct.id,
+
+            // Prefer the working local Vite-imported image.
+            image: local.image,
+            imageUrl: local.image,
+            images: local.images
+        });
+    } else {
+        productMap.set(key, local);
+    }
+});
+
+allProducts = Array.from(productMap.values());
 } catch (error) {
     console.error(
         "Could not load Firebase products. Using local products:",
@@ -185,11 +201,17 @@ console.log(
     }))
 );
 
+const requestedId = String(productId || "").trim();
+
 const product =
-    allProducts.find(item => String(item.id) === String(productId)) ||
+    allProducts.find(
+        item => String(item.id).trim() === requestedId
+    ) ||
     localProducts
         .map(normalizeLocalProduct)
-        .find(item => String(item.id) === String(productId));
+        .find(
+            item => String(item.id).trim() === requestedId
+        );
 
         
 if (!product) {

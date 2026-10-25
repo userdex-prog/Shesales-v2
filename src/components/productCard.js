@@ -1,43 +1,78 @@
 import { formatPrice } from "../js/formatPrice.js";
 
 export function createProductCard(product) {
-const productId = String(product.id);
+const productId = String(product.id ?? "");
 
+
+const images = Array.isArray(product.images)
+    ? product.images.filter(
+        image => typeof image === "string" && image.trim()
+    )
+    : [];
 
 const image =
     product.imageUrl ||
     product.image ||
-    (Array.isArray(product.images) ? product.images[0] : "") ||
+    images[0] ||
     "";
 
-const secondaryImage =
-    Array.isArray(product.images) && product.images.length > 1
-        ? product.images[1]
-        : "";
+const secondaryImage = images.find(
+    item => item !== image
+) || "";
 
-const safeId = productId.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+const safeId = productId
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+const escapeHTML = value =>
+    String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+const safeName = escapeHTML(product.name || "Handmade product");
+const safeImage = escapeHTML(image);
+const safeSecondaryImage = escapeHTML(secondaryImage);
+const safeBadge = escapeHTML(
+    product.badge || product.category || "Handmade"
+);
 
 return `
     <article class="product-card" data-product-id="${safeId}">
 
         <div class="product-images">
 
-            <img
-                class="primary-image"
-                src="${image}"
-                alt="${product.name}"
-                loading="lazy"
-                onerror="this.style.display='none';"
-            >
+            ${
+                safeImage
+                    ? `
+                        <img
+                            class="primary-image"
+                            src="${safeImage}"
+                            alt="${safeName}"
+                            loading="lazy"
+                            onerror="this.alt='Product image unavailable'; this.classList.add('image-load-error');"
+                        >
+                    `
+                    : `
+                        <div class="product-image-placeholder">
+                            Image unavailable
+                        </div>
+                    `
+            }
 
             ${
-                secondaryImage
+                safeSecondaryImage
                     ? `
                         <img
                             class="secondary-image"
-                            src="${secondaryImage}"
-                            alt="${product.name}"
+                            src="${safeSecondaryImage}"
+                            alt="${safeName}"
                             loading="lazy"
+                            onerror="this.style.display='none';"
                         >
                     `
                     : ""
@@ -57,13 +92,9 @@ return `
 
         <div class="product-content">
 
-            <span class="badge">
-                ${product.badge || product.category || "Handmade"}
-            </span>
+            <span class="badge">${safeBadge}</span>
 
-            <h3 class="product-title">
-                ${product.name}
-            </h3>
+            <h3 class="product-title">${safeName}</h3>
 
             <p class="product-price">
                 ${formatPrice(product.price)}
